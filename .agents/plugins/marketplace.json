@@ -50,7 +50,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Productivity"
+      "category": "Communication"
     },
     {
       "name": "slack",
@@ -62,7 +62,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Productivity"
+      "category": "Communication"
     },
     {
       "name": "teams",
@@ -74,7 +74,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Productivity"
+      "category": "Communication"
     },
     {
       "name": "sharepoint",
@@ -98,7 +98,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Productivity"
+      "category": "Communication"
     },
     {
       "name": "outlook-calendar",
@@ -122,7 +122,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Design"
+      "category": "Creativity"
     },
     {
       "name": "figma",
@@ -134,7 +134,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Design"
+      "category": "Creativity"
     },
     {
       "name": "hugging-face",
@@ -146,7 +146,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Coding"
+      "category": "Developer Tools"
     },
     {
       "name": "jam",
@@ -170,7 +170,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Coding"
+      "category": "Developer Tools"
     },
     {
       "name": "stripe",
@@ -182,7 +182,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Productivity"
+      "category": "Finance"
     },
     {
       "name": "vercel",
@@ -194,7 +194,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Coding"
+      "category": "Developer Tools"
     },
     {
       "name": "game-studio",
@@ -204,9 +204,10 @@
       },
       "policy": {
         "installation": "AVAILABLE",
-        "authentication": "ON_INSTALL"
+        "authentication": "ON_INSTALL",
+        "products": ["CODEX"]
       },
-      "category": "Coding"
+      "category": "Developer Tools"
     },
     {
       "name": "superpowers",
@@ -216,9 +217,10 @@
       },
       "policy": {
         "installation": "AVAILABLE",
-        "authentication": "ON_INSTALL"
+        "authentication": "ON_INSTALL",
+        "products": ["CODEX"]
       },
-      "category": "Coding"
+      "category": "Developer Tools"
     },
     {
       "name": "box",
@@ -229,7 +231,8 @@
       "policy": {
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
-      }
+      },
+      "category": "Productivity"
     },
     {
       "name": "github",
@@ -241,7 +244,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Coding"
+      "category": "Developer Tools"
     },
     {
       "name": "circleci",
@@ -253,7 +256,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Coding"
+      "category": "Developer Tools"
     },
     {
       "name": "google-drive",
@@ -264,7 +267,20 @@
       "policy": {
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
-      }
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "deepnote",
+      "source": {
+        "source": "local",
+        "path": "./plugins/deepnote"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Data & Analytics"
     },
     {
       "name": "notion",
@@ -288,7 +304,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Coding"
+      "category": "Developer Tools"
     },
     {
       "name": "sentry",
@@ -300,7 +316,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Coding"
+      "category": "Developer Tools"
     },
     {
       "name": "build-ios-apps",
@@ -310,9 +326,10 @@
       },
       "policy": {
         "installation": "AVAILABLE",
-        "authentication": "ON_INSTALL"
+        "authentication": "ON_INSTALL",
+        "products": ["CODEX"]
       },
-      "category": "Coding"
+      "category": "Developer Tools"
     },
     {
       "name": "build-macos-apps",
@@ -322,9 +339,10 @@
       },
       "policy": {
         "installation": "AVAILABLE",
-        "authentication": "ON_INSTALL"
+        "authentication": "ON_INSTALL",
+        "products": ["CODEX"]
       },
-      "category": "Coding"
+      "category": "Developer Tools"
     },
     {
       "name": "build-web-apps",
@@ -334,9 +352,23 @@
       },
       "policy": {
         "installation": "AVAILABLE",
-        "authentication": "ON_USE"
+        "authentication": "ON_USE",
+        "products": ["CODEX"]
       },
-      "category": "Coding"
+      "category": "Developer Tools"
+    },
+    {
+      "name": "build-web-data-visualization",
+      "source": {
+        "source": "local",
+        "path": "./plugins/build-web-data-visualization"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_USE",
+        "products": ["CODEX"]
+      },
+      "category": "Developer Tools"
     },
     {
       "name": "test-android-apps",
@@ -346,9 +378,10 @@
       },
       "policy": {
         "installation": "AVAILABLE",
-        "authentication": "ON_INSTALL"
+        "authentication": "ON_INSTALL",
+        "products": ["CODEX"]
       },
-      "category": "Coding"
+      "category": "Developer Tools"
     },
     {
       "name": "life-science-research",
@@ -360,7 +393,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Research"
+      "category": "Education & Research"
     },
     {
       "name": "zotero",
@@ -370,9 +403,10 @@
       },
       "policy": {
         "installation": "AVAILABLE",
-        "authentication": "ON_INSTALL"
+        "authentication": "ON_INSTALL",
+        "products": ["CODEX"]
       },
-      "category": "Research"
+      "category": "Education & Research"
     },
     {
       "name": "expo",
@@ -382,9 +416,10 @@
       },
       "policy": {
         "installation": "AVAILABLE",
-        "authentication": "ON_INSTALL"
+        "authentication": "ON_INSTALL",
+        "products": ["CODEX"]
       },
-      "category": "Coding"
+      "category": "Developer Tools"
     },
     {
       "name": "coderabbit",
@@ -394,9 +429,10 @@
       },
       "policy": {
         "installation": "AVAILABLE",
-        "authentication": "ON_INSTALL"
+        "authentication": "ON_INSTALL",
+        "products": ["CODEX"]
       },
-      "category": "Coding"
+      "category": "Developer Tools"
     },
     {
       "name": "neon-postgres",
@@ -408,7 +444,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Coding"
+      "category": "Developer Tools"
     },
     {
       "name": "remotion",
@@ -418,9 +454,10 @@
       },
       "policy": {
         "installation": "AVAILABLE",
-        "authentication": "ON_INSTALL"
+        "authentication": "ON_INSTALL",
+        "products": ["CODEX"]
       },
-      "category": "Design"
+      "category": "Creativity"
     },
     {
       "name": "plugin-eval",
@@ -430,9 +467,10 @@
       },
       "policy": {
         "installation": "AVAILABLE",
-        "authentication": "ON_INSTALL"
+        "authentication": "ON_INSTALL",
+        "products": ["CODEX"]
       },
-      "category": "Coding"
+      "category": "Developer Tools"
     },
     {
       "name": "alpaca",
@@ -444,7 +482,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Research"
+      "category": "Finance"
     },
     {
       "name": "amplitude",
@@ -456,7 +494,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Productivity"
+      "category": "Data & Analytics"
     },
     {
       "name": "attio",
@@ -468,7 +506,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Productivity"
+      "category": "Business & Operations"
     },
     {
       "name": "binance",
@@ -480,7 +518,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Research"
+      "category": "Finance"
     },
     {
       "name": "biorender",
@@ -492,7 +530,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Design"
+      "category": "Creativity"
     },
     {
       "name": "brand24",
@@ -516,7 +554,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Productivity"
+      "category": "Finance"
     },
     {
       "name": "carta-crm",
@@ -528,7 +566,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Productivity"
+      "category": "Business & Operations"
     },
     {
       "name": "cb-insights",
@@ -540,7 +578,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Research"
+      "category": "Finance"
     },
     {
       "name": "channel99",
@@ -564,7 +602,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Productivity"
+      "category": "Communication"
     },
     {
       "name": "clickup",
@@ -588,7 +626,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Coding"
+      "category": "Developer Tools"
     },
     {
       "name": "cogedim",
@@ -600,7 +638,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Lifestyle"
+      "category": "Other"
     },
     {
       "name": "common-room",
@@ -636,7 +674,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Productivity"
+      "category": "Data & Analytics"
     },
     {
       "name": "coveo",
@@ -660,7 +698,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Research"
+      "category": "Finance"
     },
     {
       "name": "daloopa",
@@ -672,7 +710,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Research"
+      "category": "Finance"
     },
     {
       "name": "demandbase",
@@ -684,7 +722,19 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Productivity"
+      "category": "Business & Operations"
+    },
+    {
+      "name": "dnb-finance-analytics",
+      "source": {
+        "source": "local",
+        "path": "./plugins/dnb-finance-analytics"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Finance"
     },
     {
       "name": "docket",
@@ -732,7 +782,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Research"
+      "category": "Education & Research"
     },
     {
       "name": "egnyte",
@@ -756,7 +806,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Lifestyle"
+      "category": "Travel"
     },
     {
       "name": "fireflies",
@@ -768,7 +818,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Productivity"
+      "category": "Communication"
     },
     {
       "name": "fyxer",
@@ -780,7 +830,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Productivity"
+      "category": "Communication"
     },
     {
       "name": "govtribe",
@@ -792,7 +842,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Research"
+      "category": "Education & Research"
     },
     {
       "name": "granola",
@@ -804,7 +854,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Productivity"
+      "category": "Communication"
     },
     {
       "name": "happenstance",
@@ -831,6 +881,18 @@
       "category": "Productivity"
     },
     {
+      "name": "hex",
+      "source": {
+        "source": "local",
+        "path": "./plugins/hex"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Data & Analytics"
+    },
+    {
       "name": "highlevel",
       "source": {
         "source": "local",
@@ -852,7 +914,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Coding"
+      "category": "Developer Tools"
     },
     {
       "name": "hubspot",
@@ -864,7 +926,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Productivity"
+      "category": "Business & Operations"
     },
     {
       "name": "keybid-puls",
@@ -876,7 +938,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Productivity"
+      "category": "Finance"
     },
     {
       "name": "marcopolo",
@@ -888,7 +950,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Coding"
+      "category": "Developer Tools"
     },
     {
       "name": "mem",
@@ -924,7 +986,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Research"
+      "category": "Finance"
     },
     {
       "name": "morningstar",
@@ -936,7 +998,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Research"
+      "category": "Finance"
     },
     {
       "name": "motherduck",
@@ -948,7 +1010,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Productivity"
+      "category": "Data & Analytics"
     },
     {
       "name": "mt-newswires",
@@ -960,7 +1022,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Research"
+      "category": "Finance"
     },
     {
       "name": "myregistry-com",
@@ -972,7 +1034,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Lifestyle"
+      "category": "Other"
     },
     {
       "name": "network-solutions",
@@ -996,7 +1058,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Productivity"
+      "category": "Data & Analytics"
     },
     {
       "name": "otter-ai",
@@ -1008,7 +1070,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Productivity"
+      "category": "Communication"
     },
     {
       "name": "particl-market-research",
@@ -1020,7 +1082,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Research"
+      "category": "Education & Research"
     },
     {
       "name": "pipedrive",
@@ -1032,7 +1094,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Productivity"
+      "category": "Business & Operations"
     },
     {
       "name": "pitchbook",
@@ -1044,7 +1106,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Research"
+      "category": "Finance"
     },
     {
       "name": "policynote",
@@ -1056,7 +1118,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Research"
+      "category": "Education & Research"
     },
     {
       "name": "pylon",
@@ -1080,7 +1142,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Research"
+      "category": "Finance"
     },
     {
       "name": "quicknode",
@@ -1092,7 +1154,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Coding"
+      "category": "Developer Tools"
     },
     {
       "name": "ranked-ai",
@@ -1116,7 +1178,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Productivity"
+      "category": "Finance"
     },
     {
       "name": "read-ai",
@@ -1128,7 +1190,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Productivity"
+      "category": "Communication"
     },
     {
       "name": "readwise",
@@ -1140,7 +1202,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Research"
+      "category": "Education & Research"
     },
     {
       "name": "responsive",
@@ -1164,7 +1226,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Research"
+      "category": "Education & Research"
     },
     {
       "name": "semrush",
@@ -1188,7 +1250,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Coding"
+      "category": "Developer Tools"
     },
     {
       "name": "setu-bharat-connect-billpay",
@@ -1200,7 +1262,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Lifestyle"
+      "category": "Finance"
     },
     {
       "name": "signnow",
@@ -1236,7 +1298,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Coding"
+      "category": "Developer Tools"
     },
     {
       "name": "streak",
@@ -1248,7 +1310,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Productivity"
+      "category": "Business & Operations"
     },
     {
       "name": "taxdown",
@@ -1260,7 +1322,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Research"
+      "category": "Finance"
     },
     {
       "name": "teamwork-com",
@@ -1284,7 +1346,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Research"
+      "category": "Finance"
     },
     {
       "name": "tinman-ai",
@@ -1296,7 +1358,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Research"
+      "category": "Finance"
     },
     {
       "name": "united-rentals",
@@ -1320,7 +1382,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Coding"
+      "category": "Developer Tools"
     },
     {
       "name": "waldo",
@@ -1344,7 +1406,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Lifestyle"
+      "category": "Travel"
     },
     {
       "name": "windsor-ai",
@@ -1356,7 +1418,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Productivity"
+      "category": "Data & Analytics"
     },
     {
       "name": "yepcode",
@@ -1368,7 +1430,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Coding"
+      "category": "Developer Tools"
     },
     {
       "name": "render",
@@ -1380,7 +1442,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Coding"
+      "category": "Developer Tools"
     },
     {
       "name": "temporal",
@@ -1392,7 +1454,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Coding"
+      "category": "Developer Tools"
     },
     {
       "name": "hyperframes",
@@ -1402,9 +1464,10 @@
       },
       "policy": {
         "installation": "AVAILABLE",
-        "authentication": "ON_INSTALL"
+        "authentication": "ON_INSTALL",
+        "products": ["CODEX"]
       },
-      "category": "Design"
+      "category": "Creativity"
     },
     {
       "name": "heygen",
@@ -1416,7 +1479,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Design"
+      "category": "Creativity"
     },
     {
       "name": "supabase",
@@ -1428,7 +1491,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Coding"
+      "category": "Developer Tools"
     },
     {
       "name": "codex-security",
@@ -1438,9 +1501,10 @@
       },
       "policy": {
         "installation": "AVAILABLE",
-        "authentication": "ON_INSTALL"
+        "authentication": "ON_USE",
+        "products": ["CODEX"]
       },
-      "category": "Coding"
+      "category": "Security"
     },
     {
       "name": "twilio-developer-kit",
@@ -1452,7 +1516,7 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Coding"
+      "category": "Developer Tools"
     },
     {
       "name": "openai-developers",
@@ -1462,9 +1526,658 @@
       },
       "policy": {
         "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL",
+        "products": ["CODEX"]
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "asana",
+      "source": {
+        "source": "local",
+        "path": "./plugins/asana"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Engineering"
+      "category": "Productivity"
+    },
+    {
+      "name": "datadog",
+      "source": {
+        "source": "local",
+        "path": "./plugins/datadog"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "zoom",
+      "source": {
+        "source": "local",
+        "path": "./plugins/zoom"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Communication"
+    },
+    {
+      "name": "similarweb",
+      "source": {
+        "source": "local",
+        "path": "./plugins/similarweb"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Data & Analytics"
+    },
+    {
+      "name": "lseg",
+      "source": {
+        "source": "local",
+        "path": "./plugins/lseg"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Finance"
+    },
+    {
+      "name": "s-p",
+      "source": {
+        "source": "local",
+        "path": "./plugins/s-p"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Finance"
+    },
+    {
+      "name": "datasite",
+      "source": {
+        "source": "local",
+        "path": "./plugins/datasite"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "factset",
+      "source": {
+        "source": "local",
+        "path": "./plugins/factset"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Finance"
+    },
+    {
+      "name": "zoominfo",
+      "source": {
+        "source": "local",
+        "path": "./plugins/zoominfo"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Business & Operations"
+    },
+    {
+      "name": "docusign",
+      "source": {
+        "source": "local",
+        "path": "./plugins/docusign"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "mixpanel",
+      "source": {
+        "source": "local",
+        "path": "./plugins/mixpanel"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Data & Analytics"
+    },
+    {
+      "name": "mixpanel-headless",
+      "source": {
+        "source": "local",
+        "path": "./plugins/mixpanel-headless"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Data & Analytics"
+    },
+    {
+      "name": "aiera",
+      "source": {
+        "source": "local",
+        "path": "./plugins/aiera"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Finance"
+    },
+    {
+      "name": "close",
+      "source": {
+        "source": "local",
+        "path": "./plugins/close"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Business & Operations"
+    },
+    {
+      "name": "apollo",
+      "source": {
+        "source": "local",
+        "path": "./plugins/apollo"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Business & Operations"
+    },
+    {
+      "name": "meticulate",
+      "source": {
+        "source": "local",
+        "path": "./plugins/meticulate"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "thoughtspot",
+      "source": {
+        "source": "local",
+        "path": "./plugins/thoughtspot"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Data & Analytics"
+    },
+    {
+      "name": "midpage",
+      "source": {
+        "source": "local",
+        "path": "./plugins/midpage"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Education & Research"
+    },
+    {
+      "name": "clay",
+      "source": {
+        "source": "local",
+        "path": "./plugins/clay"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Business & Operations"
+    },
+    {
+      "name": "calendly",
+      "source": {
+        "source": "local",
+        "path": "./plugins/calendly"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "rox",
+      "source": {
+        "source": "local",
+        "path": "./plugins/rox"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "hg-insights",
+      "source": {
+        "source": "local",
+        "path": "./plugins/hg-insights"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "airtable",
+      "source": {
+        "source": "local",
+        "path": "./plugins/airtable"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "convex",
+      "source": {
+        "source": "local",
+        "path": "./plugins/convex"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "outreach",
+      "source": {
+        "source": "local",
+        "path": "./plugins/outreach"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Business & Operations"
+    },
+    {
+      "name": "shutterstock",
+      "source": {
+        "source": "local",
+        "path": "./plugins/shutterstock"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Creativity"
+    },
+    {
+      "name": "replit",
+      "source": {
+        "source": "local",
+        "path": "./plugins/replit"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "lovable",
+      "source": {
+        "source": "local",
+        "path": "./plugins/lovable"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "quickbooks",
+      "source": {
+        "source": "local",
+        "path": "./plugins/quickbooks"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Finance"
+    },
+    {
+      "name": "intercom",
+      "source": {
+        "source": "local",
+        "path": "./plugins/intercom"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Business & Operations"
+    },
+    {
+      "name": "chronograph-lp",
+      "source": {
+        "source": "local",
+        "path": "./plugins/chronograph-lp"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Finance"
+    },
+    {
+      "name": "nvidia",
+      "source": {
+        "source": "local",
+        "path": "./plugins/nvidia"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "posthog",
+      "source": {
+        "source": "local",
+        "path": "./plugins/posthog"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Data & Analytics"
+    },
+    {
+      "name": "actively",
+      "source": {
+        "source": "local",
+        "path": "./plugins/actively"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Business & Operations"
+    },
+    {
+      "name": "zoho",
+      "source": {
+        "source": "local",
+        "path": "./plugins/zoho"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Business & Operations"
+    },
+    {
+      "name": "fiscal-ai",
+      "source": {
+        "source": "local",
+        "path": "./plugins/fiscal-ai"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Finance"
+    },
+    {
+      "name": "picsart",
+      "source": {
+        "source": "local",
+        "path": "./plugins/picsart"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Creativity"
+    },
+    {
+      "name": "alation",
+      "source": {
+        "source": "local",
+        "path": "./plugins/alation"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Data & Analytics"
+    },
+    {
+      "name": "fal",
+      "source": {
+        "source": "local",
+        "path": "./plugins/fal"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Creativity"
+    },
+    {
+      "name": "hebbia",
+      "source": {
+        "source": "local",
+        "path": "./plugins/hebbia"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Business & Operations"
+    },
+    {
+      "name": "wix",
+      "source": {
+        "source": "local",
+        "path": "./plugins/wix"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "base44",
+      "source": {
+        "source": "local",
+        "path": "./plugins/base44"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "ngs-analysis",
+      "source": {
+        "source": "local",
+        "path": "./plugins/ngs-analysis"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Education & Research"
+    },
+    {
+      "name": "superhuman",
+      "source": {
+        "source": "local",
+        "path": "./plugins/superhuman"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Communication"
+    },
+    {
+      "name": "shopify",
+      "source": {
+        "source": "local",
+        "path": "./plugins/shopify"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "magicpath",
+      "source": {
+        "source": "local",
+        "path": "./plugins/magicpath"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "brighthire",
+      "source": {
+        "source": "local",
+        "path": "./plugins/brighthire"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "catalyst-by-zoho",
+      "source": {
+        "source": "local",
+        "path": "./plugins/catalyst-by-zoho"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "glean",
+      "source": {
+        "source": "local",
+        "path": "./plugins/glean"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "chronograph-gp",
+      "source": {
+        "source": "local",
+        "path": "./plugins/chronograph-gp"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Finance"
+    },
+    {
+      "name": "openai-ads-conversions",
+      "source": {
+        "source": "local",
+        "path": "./plugins/openai-ads-conversions"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "boltz-api-cli",
+      "source": {
+        "source": "local",
+        "path": "./plugins/boltz-api-cli"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Education & Research"
+    },
+    {
+      "name": "replayio",
+      "source": {
+        "source": "local",
+        "path": "./plugins/replayio"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "digitalocean",
+      "source": {
+        "source": "local",
+        "path": "./plugins/digitalocean"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
     }
   ]
 }

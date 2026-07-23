@@ -1,13 +1,36 @@
 ---
 name: security-scan
-description: "Use when the user asks for a full security scan or security code review of a pull request, commit, branch, patch, working-tree diff, or repository. Run distinct phases: threat modeling, finding discovery, validation, attack-path analysis, and final markdown output."
-metadata:
-  short-description: Run security scan
+description: "Use for a standard, single-pass security audit of an entire repository or a scoped path, package folder, or submodule with no diff to review.  This is the default repository scan.  Do not use for PR/commit/branch/working-tree diffs, or for deep, multi-pass, or variance-reducing scans."
 ---
 
 # Security Scan
 
-Used when a user wants to scan a pull request, commit, branch diff, working-tree patch, or repository for security vulnerabilities. Keep the scan phases separate and produce a final markdown report.
+Used when a user wants to audit an entire repository or a user-specified path, package, folder, or submodule-like scope for security vulnerabilities. Keep the scan phases separate and produce the final markdown report.
+
+## Setup Workspace Routing
+
+When this skill is the active top-level workflow, use the setup workspace only when the host context explicitly says it is running inside the Codex desktop app and both required setup continuation tools are available. Tool availability alone does not identify the app host. Otherwise, including Codex CLI interactive and headless runs, use the prompt-only terminal/chat workflow: do not call Codex Security app setup tools, ask the user to press Start scan, or wait for an app-generated `scanId`.
+
+Treat goal creation as scan execution, not setup. In the app setup path, do not create or adopt scan goals before the user presses Start scan, the authoritative scan context has been loaded from a `status: "started"` wait result or a direct continuation with a `scanId`, and the capability preflight has returned `ready`.
+
+For an app continuation that already includes a `scanId` and optional `handoffClaimToken`, do not open another workspace: call `get_codex_security_scan_context` with the `scanId`, pass its `handoffClaimToken` when present, route elsewhere only if its validated mode differs, and use its target, scope, optional `userContext`, and `scanDir`.
+
+Otherwise, in a host that renders MCP Apps and exposes the Codex Security setup continuation tools:
+
+1. Resolve setup arguments directly from the user's initial prompt and known thread context: local `targetPath`, `mode: "standard"`, target-relative `scope` (`"."` for the whole target), and only user-supplied security focus as `userContext`.
+2. Perform only the minimal path resolution needed to construct those arguments. Do not run capability preflight, inspect the repository, threat model, discover findings, or create workers before setup opens.
+3. Immediately call `open_codex_security_workspace` with the resolved arguments. Do not search for or substitute a separate scan command.
+4. Immediately call `await_codex_security_scan_start` with the `sessionId` from the workspace returned by `open_codex_security_workspace`. A returned workspace with `setup.submitted=false` is the expected wait state. Keep the tool call pending while waiting for the user to review setup and press Start scan; do not create or adopt a scan goal, run preflight, or pivot to terminal/chat fallback while waiting.
+5. If the wait returns `status: "started"`, require its `scanId`, call `get_codex_security_scan_context` with that `scanId`, and pass its `handoffClaimToken` when present. Then run the preflight in `../../references/config-preflight.md` for the selected target and `security_scan` profile before goal setup, threat modeling, or other substantive scan work.
+6. If the wait returns `status: "already_delivered"`, end the current turn without loading scan context or starting scan work. Another continuation already owns the scan.
+7. If the wait returns `status: "timed_out"`, end the current turn and tell the user to finish setup and use **Continue in Codex** after pressing Start scan. Do not run preflight, create or adopt a scan goal, open another workspace, or pivot to terminal/chat fallback.
+8. Continue after a `ready` result, explaining material warn or suggest limitations. If preflight is `blocked` or `incomplete` with actionable remediation, present the exact reasons and config delta, ask whether to apply the remediation, and stop for the user's answer before creating or adopting a scan goal or calling `fail_codex_security_scan`. Do not fail automatically for declined or unavailable remediation, helper errors, or a non-ready rerun. Preserve the running scan and retry or hand off while recovery may still be possible. If the user declines required remediation, ask whether to cancel or leave the scan running for a later retry. Call `fail_codex_security_scan` with the exact reason only after documented recovery is exhausted and the blocker is confirmed unrecoverable, or when the user explicitly cancels.
+
+In Codex CLI, including interactive and headless runs, or hosts without those capabilities, use the existing prompt-only terminal/chat preflight and scan workflow and shared artifact paths. Do not call `open_codex_security_workspace` or `await_codex_security_scan_start` on this path. Once `open_codex_security_workspace` succeeds in an MCP Apps-capable host, remain on the app path: immediately call `await_codex_security_scan_start`; a `status: "timed_out"` result means end the turn and point the user to **Continue in Codex**, while `status: "already_delivered"` means stop because another continuation owns the scan. Do not start a terminal/chat fallback for either result.
+
+## Capability Preflight
+
+Read `../../references/config-preflight.md` and dispatch and await the preflight execution described there with the `security_scan` capability profile before substantive scan work, including after an app wait or direct continuation has produced a `scanId` and loaded its authoritative scan context. Follow the returned block/warn/suggest results. For an app-generated scan, ask before applying actionable remediation and wait without creating a scan goal or calling `fail_codex_security_scan`. Do not fail automatically for declined or unavailable remediation, helper errors, or a non-ready rerun; preserve the running scan and retry or hand off while recovery may still be possible. Call `fail_codex_security_scan` only after documented recovery is exhausted and the blocker is confirmed unrecoverable, or when the user explicitly cancels. Do not treat a config value that differs from a suggested patch as a warning unless the capability requirement itself is unmet.
 
 ## Phase Sequence
 
@@ -29,6 +52,23 @@ For each phase:
 
 Do not read ahead into later-phase skills until the current phase has completed.
 Do not amortize effort across phases: complete each phase to the full depth expected by that phase before moving on.
+For repository-wide and scoped-path scans, treat explicit invocation of this exhaustive scan workflow as the user's authorization to use the subagents required by the workflow. If subagents are unavailable in the current environment, explain the limitation instead of claiming exhaustive scan coverage.
+
+## Goal Setup
+
+After the app wait or direct continuation has provided a `scanId`, the authoritative scan context has been loaded, and the `security_scan` capability preflight has returned `ready`, or after the same preflight is `ready` in Codex CLI or terminal/chat hosts without the setup app, create a Codex goal for the scan if the runtime exposes goal tools and no active goal already covers this scan. The objective should state that the scan must not stop until the resolved files in scope have been covered and the required coverage artifacts prove that closure.
+
+Use objective wording shaped like:
+
+`Run the Codex Security repository/scoped-path scan for <resolved target>; do not stop until every in-scope file/worklist row has a completion receipt or explicit deferred closure, every candidate has required ledger receipts, and the final report is written.`
+
+If a compatible active goal already exists, continue under it instead of creating a duplicate. If goal tools are unavailable, state the same coverage objective in the first visible scan update and continue.
+
+Do not mark the goal complete until:
+
+- every file or worklist row in the resolved scope has a completion receipt, or an explicit `deferred`, `not_applicable`, or `suppressed` closure with exact reason
+- every candidate that reached discovery has the required discovery, validation, and attack-path ledger receipts, or an explicit deferred reason for the missing proof
+- the final markdown report has been written to the resolved scan path
 
 ## Artifact Resolution
 
@@ -39,99 +79,80 @@ Use the shared scan artifact path conventions in `../../references/scan-artifact
 
 ## Execution Plan
 
+Start this plan only after `Setup Workspace Routing` has either loaded the app-generated scan context with a `scanId`, or determined that the host is using the non-app terminal/chat workflow, and the `security_scan` capability preflight has returned `ready`.
+
 Follow this plan in order. Do not skip ahead to a later phase until the current phase has produced its intended output.
 
 1. Resolve the scan target, `repo_name`, `security_scans_dir`, `scan_id`, `scan_dir`, and `artifacts_dir` using `../../references/scan-artifacts.md`.
-2. Run `$threat-model` first.
+2. Create or adopt the scan goal described in `Goal Setup` for that active scan context.
+3. Read `../../references/security-guidance.md`, compile the resolved scan target's policy to `<context_dir>/security_guidance.md`, and read it before threat modeling or inspecting source code.
+4. Run `$threat-model` first.
   - Copy the repository-scoped threat model to the per-scan threat model path without alteration for auditability.
   - Treat the per-scan threat model path as the source of truth threat model for later phases.
-3. Run `$finding-discovery` as the second step, against the resolved diff and using the per-scan threat model as context.
-  - If discovery produces no technically plausible candidates in a diff-scoped scan, stop there, skip validation and attack-path analysis, and assemble the final markdown report immediately.
-  - In repository-wide scans, stop at discovery only when `runtime_inventory.md` exists and the coverage ledger has closed every applicable high-impact and seeded root-control row as `suppressed`, `not_applicable`, or `deferred` with exact reasons. Open, reportable, or unresolved seeded rows continue to validation even when they are not yet numbered as findings.
-4. Run `$validation` as the third step, for each candidate that came out of discovery and, in repository-wide scans, each open, reportable, or deferred seeded/root-control ledger row that still needs closure.
-  - Pass the resolved scan scope, discovery notes, and candidate inventory to validation. Validation should preserve or suppress the provided instances; it should not independently decide whether a standalone single-candidate request should become diff-scoped or repository-wide.
-  - For repository-wide scans, the exhaustive file checklist and discovery coverage ledger are part of the validation input; the ledger is a coverage artifact, not just a findings tracker. Validation should preserve checked surfaces with not_applicable, suppressed, deferred, and reportable dispositions, and continue the ledger's high-impact sibling checks when needed rather than narrowing to one representative finding.
-  - As repository-wide rows are validated, keep the saved validation report current enough that reportable, suppressed, not_applicable, and deferred closure rows survive interruption or later phase summarization, including exact root-control file:line and seed-anchor file:line when distinct.
-5. Run `$attack-path-analysis` as the fourth step, for findings and repository-wide validation closure rows that still need reportability, attack-path, and severity analysis after validation.
-6. Assemble the final markdown report last using the final report path from `../../references/scan-artifacts.md` and the outputs of the earlier phases: finding discovery, validation, attack path analysis.
+5. Run `$finding-discovery` as the second step, against the resolved repository or scoped path and using the per-scan threat model as context.
+  - Stop at discovery only when the ranked runtime-surface worklist exists and the coverage ledger has closed every applicable high-impact and seeded root-control row as `suppressed`, `not_applicable`, or `deferred` with exact reasons. Open, reportable, or unresolved seeded rows continue to validation even when they are not yet numbered as findings.
+6. Run `$validation` as the third step, for each candidate that came out of discovery and each open, reportable, or deferred seeded/root-control ledger row that still needs closure.
+  - Pass the resolved scan scope, discovery notes, and candidate inventory to validation. Validation should preserve or suppress the provided instances; it should not independently broaden or narrow the requested repository or scoped-path scan.
+  - Each candidate finding's candidate-ledger path from `../../references/scan-artifacts.md` is part of the validation input for every scan scope. Every candidate finding that came out of discovery must have a discovery receipt before validation starts and a validation receipt before the scan can proceed to final reporting.
+  - For repository-wide and scoped-path scans, the discovery worklists, work ledger, raw candidates, per-finding candidate ledgers, deduped candidates, and discovery coverage ledger from `../../references/scan-artifacts.md` are part of the validation input; the ledger is a coverage artifact, not just a findings tracker. Raw candidates should already include the discovering file-review subagent's or parent agent's candidate-local validation evidence and attack-path facts before dedupe, and each per-finding candidate ledger should prove that its raw candidate finding received both checks or has an explicit deferred reason. Validation should preserve checked surfaces with not_applicable, suppressed, deferred, and reportable dispositions, reconcile cross-file proof gaps, and continue the ledger's high-impact sibling checks when needed rather than narrowing to one representative finding.
+  - When multiple candidates or coverage-ledger rows need validation and subagents are available under the resolved scan authorization, divide validation across validation subagents by candidate, deduped candidate, or ledger row. Each validation subagent must receive the candidate or row, discovery evidence, artifact paths, and candidate-ledger path it owns, then write or return the validation report update and validation receipt for that assignment.
+  - As coverage-ledger rows are validated, keep the saved per-finding validation reports current enough that reportable, suppressed, not_applicable, and deferred closure rows survive interruption or later phase summarization, including exact root-control file:line and seed-anchor file:line when distinct.
+7. Run `$attack-path-analysis` as the fourth step, for findings and validation closure rows that still need reportability, attack-path, and severity analysis after validation.
+  - Each candidate finding's candidate-ledger path from `../../references/scan-artifacts.md` is part of the attack-path input for every scan scope. Every candidate finding that reaches attack-path analysis must have an attack-path receipt before final reporting, even when the final decision is `ignore`, suppressed, or deferred.
+  - When multiple validated candidates or validation closure rows need attack-path analysis and subagents are available under the resolved scan authorization, divide attack-path work across attack-path subagents by candidate or row. Each attack-path subagent must receive the validation evidence, affected root-control and sink lines, artifact paths, and candidate-ledger path it owns, then write or return attack-path facts, severity/policy analysis, and the attack-path receipt for that assignment.
+8. Assemble the complete canonical JSON contract last using `../../references/final-report.md`; do not author `report.md`.
+  - Populate the optional structured details in `../../references/finding-detail-fields.md` from the same validated evidence used in the generated report.
+  - For every reportable finding, run `$vulnerability-writeup` with exactly one dedicated write-up sub-agent. Give it only that finding, its validation and attack-path evidence, relevant source paths and revision, PoC inputs, and the target output directory.
+  - Write the derived report to `findings/<slug>/<slug>.md` with supporting PoC files under `findings/<slug>/poc/`. Verify the report is a regular file, then set that finding's `writeup.reportPath` to the matching safe relative path. Do not add the derived report to the sealed artifact list.
+  - After every write-up is ready, run `$propose-security-hardening` once over the complete finding collection, detailed write-ups, threat model, coverage, and relevant source. Write its portfolio to `hardening/hardening.md`, its structured analysis to `hardening/hardening.json`, and any proposals and diagrams below `hardening/`. Verify `hardening/hardening.md` is a regular file, then set `scan.hardening.portfolioPath` to the fixed relative path `hardening/hardening.md`. Do not add these derived files to the sealed artifact list. Skip this step and omit `scan.hardening` when there are no reportable findings.
+  - Complete the scan once, after all write-ups, hardening guidance, and canonical JSON are ready, so finalization projects the validated JSON and derived-document links into `report.md`. In the terminal/chat workflow without `complete_codex_security_scan`, run `python <plugin_dir>/scripts/finalize_scan_contract.py --scan-dir <scan_dir> --source-root <repo_root>` directly.
 
-## Phase Scope
+## Scan Scope
 
 - Phase 1 (threat model generation) is repository-scope by default, unless the user explicitly asks for narrower scope or provides an authoritative threat model or sufficiently repository-specific security scan guidance such as `AGENTS.md`.
-- For PR, commit, branch, and local-patch scans, Phase 2 onward (finding discovery, validation, attack path analysis) are diff-focused and should follow the changed code and its supporting files.
-- For repository-wide scans, Phase 2 onward remain repository-wide. Before the `$finding-discovery` phase, read `references/repository-wide-scan.md` and every required reference it lists, then use them for finding discovery, validation, and attack path analysis.
-
-Treat this asymmetry as intentional:
-
-- use the diff to locate the scan target for later phases
-- do not let the diff bias Phase 1 threat model generation, if applicable
-- do not let the touched subsystem become the repository threat model unless the user explicitly asks for that narrower scope
+- Phase 2 onward (finding discovery, validation, attack path analysis) remain within the resolved repository or scoped path. For repository-wide scans, the entire checked-out repository is in scope. For scoped-path scans, the requested path, package, folder, or submodule-like boundary is in scope together with directly supporting files needed to understand concrete findings.
+- Before the `$finding-discovery` phase, read `references/repository-wide-scan.md` and every required reference it lists, then use them for finding discovery, validation, and attack path analysis.
 
 ## Scan Target
 
-Resolve the exact diff before starting:
+Resolve the requested audit scope before starting:
 
-- PR: compare base branch against current `HEAD`
-- commit: scan the target commit against its parent or requested baseline
-- branch diff: scan the requested merge-base to head range
-- local patch: scan the working tree diff against the requested base
 - repository-wide: scan the entire checked-out repository
+- scoped path: scan the user-specified path, package, folder, or submodule-like boundary inside the checked-out repository
 
-For a repository-wide scan, treat the entire checked-out repository as the diff for the later phases of this workflow.
+Treat the resolved repository or scoped path as the in-scope codebase for the later phases of this workflow.
 
-## Diff-Scoped Sibling Coverage
+## Scoped Exhaustive Mode
 
-For normal PR, commit, branch, and local-patch scans, stay diff-focused but preserve repeated vulnerable instances that are created or affected by the same changed pattern.
+For repository-wide and scoped-path scans, follow `references/repository-wide-scan.md` and every required reference it lists.
 
-Diff scans should:
-
-- start from the changed files and the supporting files needed to understand the changed behavior
-- fan out from a changed route, handler, shared helper, guard, template pattern, query builder, serializer/deserializer, filesystem/network sink, config block, or wrapper to sibling instances that the diff also changes, newly reaches, or affects through the same modified shared dependency
-- when the diff adds, removes, or reshapes a guard around an existing parser, deserializer, expression evaluator, filesystem/path helper, archive utility, or auth/authz helper, use the adjacent pre-existing sink/control as supporting context for the changed behavior; keep the candidate anchored to the changed guard or newly exposed path unless the user explicitly asks for wider instance expansion
-- when a changed wrapper, guard, or API delegates to a shared parser/deserializer/path/archive/auth helper, keep both the wrapper call site and the underlying shared sink/control line addressable; do not replace the root sink/control evidence with wrapper-only evidence
-- carry each vulnerable sibling instance through discovery and validation with its own affected location, source, closest control, sink, impact, and suppression evidence
-- use unchanged siblings as context and negative controls, but report them only when the diff makes them newly vulnerable or changes the shared control or sink they depend on
-- stop when the diff-linked pattern family is exhausted, rather than broadening into repository-wide enumeration
-
-This keeps PR scans precise while avoiding the common failure mode where one representative route or sink hides additional vulnerable siblings introduced by the same patch.
-
-## Repository-Wide Exhaustive Mode
-
-When the scan target is repository-wide, follow `references/repository-wide-scan.md` and every required reference it lists.
+Treat explicit invocation of this repository-wide or scoped-path exhaustive scan workflow as the user's authorization to use the subagents required by the workflow. If subagents are unavailable, do not claim exhaustive coverage; explain the limitation and offer the narrower parent-agent-only path only if it can still satisfy the requested scope honestly.
 
 Use the per-scan artifact directory layout from `../../references/scan-artifacts.md`.
 
-Important:
-
-Take any commit titles and descriptions with caution. They can be incomplete or misleading. Focus on the actual code and repository evidence.
-
 ## Final Output
 
-Assemble the final markdown report and Codex app review directives using `references/final-report.md`.
+Populate all final report semantics in the canonical manifest, findings, and coverage JSON using `../../references/final-report.md`. Generate one detailed `vulnerability-writeup` for every reportable finding, then run `propose-security-hardening` once over the complete collection and record the safe derived-document paths. Complete the scan once after both stages; finalization owns `report.md` generation. Emit Codex app review directives from the completed canonical findings.
 
 ## Hard Rules
 
-- Keep the phases separate.
-- Follow the execution plan in order.
-- Use the tools to inspect the repository before making decisions.
-- For repository-wide scans, do not equate broad sink counts with completed coverage. The coverage ledger must close each applicable high-impact shard row as `reportable`, `suppressed`, `not_applicable`, or `deferred`.
+Read `../../references/shared-hard-rules.md` before applying scan-mode-specific hard rules.
+
+- After any app setup handoff has provided a `scanId`, or in the non-app terminal/chat workflow, create or adopt the scan goal only after the capability preflight has returned `ready`, and before substantive scan work. Do not complete it until the resolved in-scope files/worklist rows, candidate ledgers, and final reports meet the `Goal Setup` closure criteria.
+- For repository-wide and scoped-path scans, do not equate broad sink counts with completed coverage. The coverage ledger must close each applicable high-impact shard row as `reportable`, `suppressed`, `not_applicable`, or `deferred`.
+- For every scan scope, candidate-finding coverage is required. Do not finalize a candidate finding until its candidate-ledger path from `../../references/scan-artifacts.md` shows discovery, validation, and attack-path receipts for that exact candidate, or an explicit deferred reason for the missing proof.
+- For repository-wide and scoped-path scans, subagent dispatch must have explicit ownership: each of no more than six ranking subagents owns one static `rank_worker_assignments.json` pool slot containing one or more generated `rank_shards/*.input.jsonl` shards of at most 150 rows, processes its ordered list sequentially, and writes only the matching worker-local `.output.jsonl` files; file-review subagents own one assessed file or tiny shard and return full-file receipts plus pre-dedupe finding objects with candidate-local validation evidence and attack-path facts; validation subagents own one candidate or ledger row that needs validation closure; attack-path subagents own one validated candidate or validation closure row; the parent agent owns bounded worker orchestration, ledger reconciliation, aggregation, cross-file dedupe, and final closure.
+- For repository-wide and scoped-path scans, candidate-finding coverage is separate from file coverage. Do not dedupe or finalize a raw candidate finding until its candidate-ledger path from `../../references/scan-artifacts.md` shows candidate-local validation and candidate-local attack-path receipts, or an explicit deferred reason for missing proof.
 - Candidate ids are optional links from coverage rows to findings; a not_applicable, suppressed, or deferred row is still required when the surface was in scope.
-- For repository-wide scans, the runtime inventory must exist as an artifact before discovery is considered complete, and the coverage ledger must be materially broader than the promoted candidate list.
-- For repository-wide scans with CVE, GHSA, advisory, issue, release, or package-version identifiers, `seed_research.md` must exist before discovery is considered complete. It should record authoritative sources searched, candidate files/functions/classes/hunks, and failed lookup attempts. Missing seed research means advisory-led discovery is incomplete unless the scan explicitly states that no network/local-history source was available.
-- In large repository-wide scans, checkpoint the runtime inventory and initial coverage ledger to disk before deep sink review or validation. A run that is interrupted after frontier mapping should still leave auditable coverage artifacts.
+- For repository-wide and scoped-path scans, the ranked runtime-surface worklist must exist before discovery is considered complete, and the coverage ledger must be materially broader than the promoted candidate list.
+- For repository-wide and scoped-path scans with CVE, GHSA, advisory, issue, release, or package-version identifiers, `seed_research.md` must exist before discovery is considered complete. It should record authoritative sources searched, candidate files/functions/classes/hunks, and failed lookup attempts. Missing seed research means advisory-led discovery is incomplete unless the scan explicitly states that no network/local-history source was available.
+- In large repository-wide scans, checkpoint the ranked runtime-surface worklist and initial coverage ledger to disk before deep sink review or validation. A run that is interrupted after frontier mapping should still leave auditable coverage artifacts.
 - In large monorepos, top product/runtime areas by file count or deployment significance must appear as ledger shards or be explicitly excluded with repository evidence; global sink counts and `no top candidate surfaced` do not close coverage.
 - User/advisory/tag-seeded packages, class families, or vulnerability families remain open until the exact seeded row is closed as `reportable`, `suppressed`, `not_applicable`, or `deferred`. A neighboring same-family finding does not close the seeded row.
 - For large repository-wide scans, make one reachability pass across every applicable high-impact shard before prolonged validation of any single shard. A row becomes a validation candidate only when it has a concrete entrypoint or privileged boundary, closest relevant control, sink or broken control, and plausible impact.
 - Discovery is incomplete when a shard has a promoted finding but still has unclosed sibling packages, concrete implementations, or reusable root-control rows that could be independently vulnerable. Finish those rows or mark them explicitly deferred before final reporting.
-- In large repositories, discovery is incomplete when it only follows the first obvious hotspot cluster and never checks a disjoint seeded/advisory or low-salience utility/control shard such as protocol/version helpers, central object-model helpers, reusable validators, or shared deserializer controls.
 - Final assembly must start from reportable validation closure rows and surviving candidates. Do not drop a reportable seeded/root-control row because attack-path analysis or discovery spent more prose on a neighboring same-family finding.
 - Final reporting is incomplete when a promoted high-impact finding's affected lines omit the concrete root-control file/line discovered or seeded during discovery, such as a codec, converter, parser feature setup, class filter, resource-path control, protocol state transition, or self-service update guard. Add the root-control affected line or explicitly suppress/defer it with exact counterevidence before finalizing.
-- In repository-wide scans, preserve independently reachable sibling instances through final reporting. Repeated vulnerable templates, query builders, parser operations, auth/object endpoints, or shared-helper callers need separate finding entries, affected lines, and dispositions; put grouping in summary prose only after the individual instances are emitted.
+- In repository-wide and scoped-path scans, preserve independently reachable sibling instances through final reporting. Repeated vulnerable templates, query builders, parser operations, auth/object endpoints, or shared-helper callers need separate finding entries, affected lines, and dispositions; put grouping in summary prose only after the individual instances are emitted.
 - For query/parser injection, do not suppress syntax-control evidence solely because a later business check appears to limit impact. Carry the injection candidate until validation proves the exact query API and post-query guard defeat semantic change for that instance.
 - If large-repository scope forces deferral, make the final report explicit about which deployed or privileged areas and vulnerability families remain deferred.
-- Avoid destructive commands, interactive editors, and broad unbounded scans.
-- Prefer targeted, reversible shell commands.
-- For Phase 1 fallback threat model generation, produce a repository-level threat model that would still make sense for an unrelated diff in the same repository.
-- Do not let the current scan target bias Phase 1 unless the user explicitly requests a target-scoped threat model.
-- For later phases, stay grounded in repository evidence and the actual changed code.
-- Do not emit a finding unless it survives the final policy-adjustment pass.

@@ -40,11 +40,20 @@ async function cleanupOrphans(runId) {
     // Traverse all nodes on this page
     await figma.setCurrentPageAsync(page)
 
-    const nodesToRemove = []
-    page.findAll((node) => {
-      if (node.getPluginData('dsb_run_id') === runId) {
-        nodesToRemove.push(node)
-        return false // Don't descend — removing the parent removes its children
+    // Use the pluginData index to find candidates, then keep only those whose
+    // run_id matches. Much faster than findAll + getPluginData on every node.
+    const candidates = page.findAllWithCriteria({
+      pluginData: { keys: ['dsb_run_id'] },
+    })
+    const tagged = candidates.filter((node) => node.getPluginData('dsb_run_id') === runId)
+    // Drop descendants of already-collected nodes (removing the parent removes
+    // its children, so we only need the topmost match in each chain).
+    const taggedSet = new Set(tagged)
+    const nodesToRemove = tagged.filter((node) => {
+      let p = node.parent
+      while (p) {
+        if (taggedSet.has(p)) return false
+        p = p.parent
       }
       return true
     })
